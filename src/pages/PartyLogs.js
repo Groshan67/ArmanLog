@@ -12,13 +12,14 @@ import {
 
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
-import LinearProgress from "@mui/material/LinearProgress";
+
+
 
 const baseURL = "https://hlthubofinsco.services.centinsur.ir";
 const LOG_URL = "/api/log/thirdPartyServices";
 const theme = createTheme({
   typography: {
-    fontFamily: "Vazir",
+    fontFamily: "Shabnam",
   },
 });
 
@@ -90,12 +91,13 @@ ExpandableCell.propTypes = {
 const columns = [
   { field: "id", headerName: "ردیف", flex: 1, minWidth: 50 },
   { field: "httpMethod", headerName: "متد", flex: 1, minWidth: 88 },
-  { field: "createdBy", headerName: "نام شرکت", flex: 1, minWidth: 100 },
+  { field: "createdBy", headerName: "نام شرکت", flex: 1, minWidth: 150 },
   {
     field: "uri",
     headerName: "Uri",
     flex: 1,
     minWidth: 400,
+    rtl: true,
   },
   {
     field: "requestBody",
@@ -175,11 +177,11 @@ const PartyLogs = () => {
       <Box dir="rtl">
         <Container
           style={{
-            height: 500,
-            width: "auto",
-            marginTop: 100,
-            marginBottom: 100,
+            marginTop: "50px",
+            marginRight: 0,
+            marginLeft: 0,
           }}
+          sx={{}}
         >
           <StripedDataGrid
             sortingMode="server"
@@ -210,8 +212,9 @@ const PartyLogs = () => {
             }
             components={{
               Toolbar: GridToolbar,
-              LoadingOverlay: LinearProgress,
+              // LoadingOverlay: LinearProgress,
             }}
+            style={{ height: 700, width: "inherit" }}
             sx={{
               "& .MuiDataGrid-toolbarContainer": {
                 direction: "ltr",

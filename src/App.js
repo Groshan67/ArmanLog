@@ -7,6 +7,7 @@ import { AuthContextProvider } from "./components/shared/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import PartyLogs from "./pages/PartyLogs";
 import Jobs from "./pages/Jobs";
+import PatientBillSnapshot from "./pages/PatientBillSnapshot";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               }
             ></Route>
             <Route path="/jobs" element={<Jobs />}></Route>
+            <Route path="/patientBillSnapshot" element={<PatientBillSnapshot />}></Route>
             <Route
               path="/partylogs"
               element={
