@@ -3,7 +3,6 @@ import { Container, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import logo from "./../../assets/images/login-logo.png";
 import AuthContext from "./AuthContext";
 
 const Layout = ({ children }) => {
@@ -12,14 +11,13 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar dir="rtl" style={navbar} variant="dark">
-        <Navbar.Brand> <a class="navbar-brand" href="#"><img  src={logo} height="28" alt="TJ" /></a></Navbar.Brand>
+        <Navbar.Brand>
+          <Nav.Link as={Link} to="/">
+            صفحه اصلی
+          </Nav.Link>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav>
-            <Nav.Link as={Link} to="/">
-              صفحه اصلی
-            </Nav.Link>
-          </Nav>
           <Nav>
             {user && (
               <Nav.Link as={Link} to="/partylogs">
@@ -29,15 +27,8 @@ const Layout = ({ children }) => {
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/jobs">
-              مشاغل
+              Jobs
             </Nav.Link>
-          </Nav>
-          <Nav>
-            {user && (
-              <Nav.Link as={Link} to="/patientBillSnapshot">
-                پرونده های هاب درمان تکمیلی
-              </Nav.Link>
-            )}
           </Nav>
           <Nav className="ms-auto">
             {!user && (
@@ -49,7 +40,7 @@ const Layout = ({ children }) => {
           </Nav>
           {user && (
             <Button
-              style={{ fontFamily: "Shabnam" , marginLeft:7 }}
+              style={{ fontFamily: "Vazir" }}
               variant="danger"
               type="button"
               onClick={() => {
