@@ -12,7 +12,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
 import LoadingSpinner from "./LoadingSpinner";
 import axios from "axios";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
 
 const baseURL =
   "https://jobs.mehrkamjobs.com/api/portal/jobs/1788?category=&env=public";

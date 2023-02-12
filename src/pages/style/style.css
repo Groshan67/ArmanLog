@@ -1,0 +1,37 @@
+.styles {
+  padding: 50px;
+}
+.ag-style {
+  height: 280px;
+  width: 100%;
+}
+.vertical-middle {
+  display: flex;
+  align-items: center;
+}
+.vertical-middle img {
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  
+}
+
+
+
+.spinner {
+  animation: spin infinite 1s linear;
+  font-size: 26px;
+  /*You can increase or decrease the timer (5s) to 
+   increase or decrease the speed of the spinner*/
+}
+
+@keyframes spin {
+from {
+  transform: rotate(0deg);
+}
+to {
+  transform: rotate(360deg);
+}
+}
+  
+

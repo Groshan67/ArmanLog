@@ -1,4 +1,3 @@
-import "./App.css";
 import Layout from "./components/shared/Layout";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -7,8 +6,9 @@ import { AuthContextProvider } from "./components/shared/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import PartyLogs from "./pages/PartyLogs";
 import Jobs from "./pages/Jobs";
+import Test from "./pages/Test";
 
-function App() {
+const App = () => {
   return (
     <>
       <AuthContextProvider>
@@ -24,6 +24,7 @@ function App() {
               }
             ></Route>
             <Route path="/jobs" element={<Jobs />}></Route>
+            <Route path="/postList" element={<Test />}></Route>
             <Route
               path="/partylogs"
               element={
@@ -37,6 +38,6 @@ function App() {
       </AuthContextProvider>
     </>
   );
-}
+};
 
 export default App;

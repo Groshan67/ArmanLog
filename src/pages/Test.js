@@ -6,7 +6,6 @@ import jwtInterceptor from "../components/shared/jwtInterceptor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import CustomLoadingOverlay from "./customLoadingOverlay";
-
 import "./style/style.css";
 import "./style/styles.scss";
 
@@ -15,9 +14,9 @@ const baseURL =
 
 const floppy = <FontAwesomeIcon icon={faFloppyDisk} />;
 
-const PartyLogs = () => {
+const PostList = () => {
   const [gridApi, setGridApi] = useState(null);
-  const perPage = 10;
+  const perPage = 5;
 
   const defaultColDef = useMemo(() => {
     return {
@@ -25,14 +24,16 @@ const PartyLogs = () => {
       enableRowGroup: true,
       enablePivot: true,
       enableValue: true,
+      width: 100,
       sortable: true,
       resizable: true,
       filter: true,
-      minWidth: 230,
+      minWidth: 220,
       rowHeight: 1500,
       floatingFilter: true,
       cellStyle: (params) => {
         if (params.value === "POST") {
+          //mark POST cells as Orange
           return { color: "Orange" };
         } else if (params.value === "GET") {
           return { color: "Green" };
@@ -49,15 +50,15 @@ const PartyLogs = () => {
   const [columnDefs] = useState([
     {
       field: "id",
-      headerName: "شناسه",
+      headerName: "ردیف",
       flex: 1,
       minWidth: 120,
     },
     {
       field: "httpMethod",
-      headerName: "متد درخواست",
+      headerName: "متد",
       flex: 1,
-      minWidth: 150,
+      minWidth: 130,
     },
     {
       field: "createdBy",
@@ -68,67 +69,61 @@ const PartyLogs = () => {
     },
     {
       field: "uri",
-      headerName: "آدرس یو آر ال",
+      headerName: "Uri",
       flex: 1,
       minWidth: 500,
     },
     {
       field: "responseBody",
-      headerName: "بدنه پاسخ",
+      headerName: "responseBody",
       flex: 1,
       minWidth: 600,
     },
     {
       field: "requestBody",
-      headerName: "بدنه درخواست",
+      headerName: "RequestBody",
       flex: 1,
       minWidth: 400,
     },
     {
       field: "requestHeader",
-      headerName: "هدر درخواست",
+      headerName: "requestHeader",
       flex: 1,
       minWidth: 400,
     },
     {
       field: "responseHeader",
-      headerName: "هدر پاسخ",
+      headerName: "responseHeader",
       flex: 1,
       minWidth: 400,
     },
-    { field: "requestTime", headerName: "زمان درخواست" },
+    { field: "requestTime", headerName: "requestTime" },
     {
       field: "responseTime",
-      headerName: "زمان پاسخ",
+      headerName: "responseTime",
     },
     {
       field: "responseStatus",
-      headerName: "وضعیت پاسخ",
+      headerName: "responseStatus",
     },
     {
       field: "responseException",
-      headerName: "خطا",
+      headerName: "responseException",
     },
-    { field: "createdAt", headerName: "زمان ایجاد" },
-    { field: "updatedAt", headerName: "زمان بروز رسانی" },
-    { field: "updatedBy", headerName: "کاربر بروز رسانی" },
+    { field: "createdAt", headerName: "CreatedAt" },
+    { field: "updatedAt", headerName: "UpdatedAt" },
+    { field: "updatedBy", headerName: "UpdatedBy" },
   ]);
   const containerStyle = useMemo(
-    () => ({ width: "800px", height: "1200px" }),
+    () => ({ width: "100px", height: "100px" }),
     []
   );
-  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const gridStyle = useMemo(() => ({ height: "800px", width: "1000px" }), []);
 
   const onGridReady = (params) => {
     setGridApi(params.api);
   };
-  const gridOptions = {
-    getRowStyle: (params) => {
-      if (params.node.footer) {
-        return { fontWeight: "bold" };
-      }
-    },
-  };
+
   useEffect(() => {
     if (gridApi) {
       const dataSource = {
@@ -138,19 +133,18 @@ const PartyLogs = () => {
           // params.endRow : End Page
 
           gridApi.showLoadingOverlay();
-          let pageSize = params.endRow - params.startRow,
-            pageNum = params.startRow / pageSize ;
-          //const page = params.endRow / perPage - 1;
-          console.log("pageNum.pageNum: ", pageNum);
+          const page = params.endRow / perPage;
+
           jwtInterceptor
-            .get(`${baseURL}?page=${pageNum}&size=${pageSize}`)
+            .get(`${baseURL}?page=${page}&size=${perPage}`)
             .then((res) => {
               if (!res.data.number) {
+                console.log("sss", res.data.number);
                 gridApi.showNoRowsOverlay();
               } else {
                 gridApi.hideOverlay();
               }
-              params.successCallback(res.data.content, res.data.totalElements);
+              params.successCallback(res.data.content, res.data.totalPages);
             })
             .catch((err) => {
               gridApi.showNoRowsOverlay();
@@ -176,46 +170,47 @@ const PartyLogs = () => {
   }, []);
 
   return (
-    <div>
+    <div style={containerStyle}>
       <div
         style={{
+          marginTop: "20px",
           height: "800px",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <div className="container" style={{ marginRight: "600px" }}>
-          <a className="button" onClick={() => onExportClick()}>
+        <div className="container">
+          <a className="button" href={() => onExportClick()}>
             {floppy}
           </a>
         </div>
 
-        <div style={gridStyle} className="ag-theme-alpine">
-          <AgGridReact
-            ref={gridRef}
-            enableRtl={true}
-            animateRows={true}
-            pagination={true}
-            columnDefs={columnDefs}
-            rowModelType={"infinite"}
-            paginationPageSize={perPage}
-            cacheBlockSize={perPage}
-            onGridReady={onGridReady}
-            rowHeight={150}
-            showToolPanel={true}
-            columnHoverHighlight={true}
-            defaultColDef={defaultColDef}
-            // overlayLoadingTemplate={loadingOverlayComponent}
-            loadingOverlayComponent={loadingOverlayComponent}
-            loadingOverlayComponentParams={loadingOverlayComponentParams}
-            overlayNoRowsTemplate={
-              '<span className="ag-overlay-loading-center">اطلاعاتی برای نمایش موجود نیست.</span>'
-            }
-          ></AgGridReact>
+        <div style={{ flexGrow: "1", height: "10px" }}>
+          <div style={gridStyle} className="ag-theme-alpine">
+            <AgGridReact
+              ref={gridRef}
+              enableRtl={true}
+              animateRows={true}
+              pagination={true}
+              columnDefs={columnDefs}
+              rowModelType={"infinite"}
+              paginationPageSize={perPage}
+              cacheBlockSize={perPage}
+              onGridReady={onGridReady}
+              rowHeight={150}
+              defaultColDef={defaultColDef}
+              // overlayLoadingTemplate={loadingOverlayComponent}
+              loadingOverlayComponent={loadingOverlayComponent}
+              loadingOverlayComponentParams={loadingOverlayComponentParams}
+              overlayNoRowsTemplate={
+                '<span className="ag-overlay-loading-center">اطلاعاتی برای نمایش موجود نیست.</span>'
+              }
+            ></AgGridReact>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default PartyLogs;
+export default PostList;

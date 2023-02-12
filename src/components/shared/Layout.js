@@ -1,17 +1,28 @@
 import Navbar from "react-bootstrap/Navbar";
-import { Container, Button } from "react-bootstrap";
+import { Row, Container, Form, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
+import logo from "./../../assets/images/login-logo.png";
 import AuthContext from "./AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+
+const signIn = <FontAwesomeIcon icon={faSignInAlt} />;
+const signOut = <FontAwesomeIcon icon={faSignOutAlt} />;
 
 const Layout = ({ children }) => {
   const { user, logout } = useContext(AuthContext);
-  const navbar = { backgroundColor: "#9152a2", fontFamily: "Vazir" };
+  const navbar = { backgroundColor: "#9152a2", fontFamily: "Shabnam" };
   return (
     <>
       <Navbar dir="rtl" style={navbar} variant="dark">
-        <Navbar.Brand></Navbar.Brand>
+        <Navbar.Brand>
+          {" "}
+          <a className="navbar-brand" href="#">
+            <img src={logo} height="28" alt="TJ" />
+          </a>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav>
@@ -28,33 +39,45 @@ const Layout = ({ children }) => {
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/jobs">
-              لیست مشاغل
+              مشاغل
             </Nav.Link>
           </Nav>
+          <Nav>
+            <Nav.Link as={Link} to="/test">
+              تست
+            </Nav.Link>
+          </Nav>
+          <Nav>
+            {user && (
+              <Nav.Link as={Link} to="/patientBillSnapshot">
+                پرونده های هاب سلامت
+              </Nav.Link>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+        <Form className="form-inline my-2 my-lg-0">
           <Nav className="ms-auto">
             {!user && (
-              <Nav.Link as={Link} to="/login">
-                <h6>ورود</h6>
+              <Nav.Link  as={Link} to="/login">
+                {signIn}  
               </Nav.Link>
             )}
             {user && <Nav.Link href="#">{user?.username}</Nav.Link>}
-          </Nav>
 
-          {user && (
-            <Button
-              style={{ fontFamily: "Vazir" }}
-              variant="danger"
-              type="button"
-              onClick={() => {
-                logout();
-              }}
-            >
-              <h6>خروج</h6>
-            </Button>
-          )}
-        </Navbar.Collapse>
+            {user && (
+              <Nav.Link as={Link}>
+                <FontAwesomeIcon 
+                  onClick={() => {
+                    logout();
+                  }}
+                  icon={faSignOutAlt}
+                />
+              </Nav.Link>
+            )}
+          </Nav>
+        </Form>
       </Navbar>
-      <Container>{children}</Container>
+      <Row className="m-4">{children}</Row>
     </>
   );
 };

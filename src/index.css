@@ -1,15 +1,15 @@
 @font-face {
-	font-family: Vazir;
-	src: url("https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot");
-	src: url("https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot?#iefix") format("embedded-opentype"),
-		url("https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff2") format("woff2"),
-		url("https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff") format("woff"),
-		url("https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.ttf") format("truetype");
+	font-family: Shabnam;
+	src: url("https://cdn.fontcdn.ir/Font/Persian/Shabnam/Shabnam.eot");
+	src: url("https://cdn.fontcdn.ir/Font/Persian/Shabnam/Shabnam.eot?#iefix") format("embedded-opentype"),
+		url("https://cdn.fontcdn.ir/Font/Persian/Shabnam/Shabnam.woff2") format("woff2"),
+		url("https://cdn.fontcdn.ir/Font/Persian/Shabnam/Shabnam.woff") format("woff"),
+		url("https://cdn.fontcdn.ir/Font/Persian/Shabnam/Shabnam.ttf") format("truetype");
 	font-weight: normal;
 }
 body {
   margin: 0;
-  font-family: 'Vazir'  
+  font-family: 'Shabnam'  
    , 'Times New Roman', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; 
@@ -28,6 +28,7 @@ p {
 }
 
 b{
-  font-family: 'Vazir' !important;
+  font-family: 'Shabnam' !important;
 }
+@import 'handsontable/dist/handsontable.full.min.css';
 
