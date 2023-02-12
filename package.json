@@ -8,7 +8,7 @@
     "@material-ui/core": "^4.12.4",
     "@material-ui/data-grid": "^4.0.0-alpha.37",
     "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.11.4",
+    "@mui/material": "^5.11.5",
     "@mui/x-data-grid": "^5.17.16",
     "@mui/x-data-grid-premium": "^5.17.16",
     "@testing-library/jest-dom": "^5.16.5",

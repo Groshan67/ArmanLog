@@ -11,13 +11,14 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar dir="rtl" style={navbar} variant="dark">
-        <Navbar.Brand>
-          <Nav.Link as={Link} to="/">
-            صفحه اصلی
-          </Nav.Link>
-        </Navbar.Brand>
+        <Navbar.Brand></Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav>
+            <Nav.Link as={Link} to="/">
+              صفحه اصلی
+            </Nav.Link>
+          </Nav>
           <Nav>
             {user && (
               <Nav.Link as={Link} to="/partylogs">
@@ -27,7 +28,7 @@ const Layout = ({ children }) => {
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/jobs">
-              Jobs
+              لیست مشاغل
             </Nav.Link>
           </Nav>
           <Nav className="ms-auto">
@@ -38,6 +39,7 @@ const Layout = ({ children }) => {
             )}
             {user && <Nav.Link href="#">{user?.username}</Nav.Link>}
           </Nav>
+
           {user && (
             <Button
               style={{ fontFamily: "Vazir" }}
