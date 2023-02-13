@@ -1,3 +1,4 @@
+import React , { Component}  from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import { Row, Container, Form, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
@@ -8,7 +9,7 @@ import AuthContext from "./AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-const signIn = <FontAwesomeIcon icon={faSignInAlt} />;
+const signIn = <FontAwesomeIcon icon={faSignInAlt} /> ;
 const signOut = <FontAwesomeIcon icon={faSignOutAlt} />;
 
 const Layout = ({ children }) => {
@@ -42,14 +43,10 @@ const Layout = ({ children }) => {
               مشاغل
             </Nav.Link>
           </Nav>
-          <Nav>
-            <Nav.Link as={Link} to="/test">
-              تست
-            </Nav.Link>
-          </Nav>
+        
           <Nav>
             {user && (
-              <Nav.Link as={Link} to="/patientBillSnapshot">
+              <Nav.Link as={Link} to="/test">
                 پرونده های هاب سلامت
               </Nav.Link>
             )}

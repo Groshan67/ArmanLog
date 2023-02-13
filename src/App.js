@@ -1,3 +1,4 @@
+import React  from 'react';
 import Layout from "./components/shared/Layout";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -24,7 +25,7 @@ const App = () => {
               }
             ></Route>
             <Route path="/jobs" element={<Jobs />}></Route>
-            <Route path="/postList" element={<Test />}></Route>
+            <Route path="/test" element={<Test />}></Route>
             <Route
               path="/partylogs"
               element={

@@ -139,13 +139,13 @@ const PartyLogs = () => {
 
           gridApi.showLoadingOverlay();
           let pageSize = params.endRow - params.startRow,
-            pageNum = params.startRow / pageSize ;
+            pageNum = params.startRow / pageSize;
           //const page = params.endRow / perPage - 1;
           console.log("pageNum.pageNum: ", pageNum);
           jwtInterceptor
             .get(`${baseURL}?page=${pageNum}&size=${pageSize}`)
             .then((res) => {
-              if (!res.data.number) {
+              if (!res.data.content) {
                 gridApi.showNoRowsOverlay();
               } else {
                 gridApi.hideOverlay();
