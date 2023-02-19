@@ -7,7 +7,7 @@ import { AuthContextProvider } from "./components/shared/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import PartyLogs from "./pages/PartyLogs";
 import Jobs from "./pages/Jobs";
-import Test from "./pages/Test";
+import PatientBillSnapshot from "./pages/PatientBillSnapshot";
 
 const App = () => {
   return (
@@ -25,7 +25,7 @@ const App = () => {
               }
             ></Route>
             <Route path="/jobs" element={<Jobs />}></Route>
-            <Route path="/test" element={<Test />}></Route>
+            <Route path="/patientBillSnapshot" element={<PatientBillSnapshot />}></Route>
             <Route
               path="/partylogs"
               element={

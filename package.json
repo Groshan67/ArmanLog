@@ -2,6 +2,7 @@
       "name": "react18-jwt-auth",
       "version": "0.1.0",
       "private": true,
+      "proxy": "http://localhost:8080",
       "dependencies": {
             "@ag-grid-community/all-modules": "^27.3.0",
             "@ag-grid-community/client-side-row-model": "^29.0.0",
@@ -25,7 +26,6 @@
             "axios": "^0.27.2",
             "bootstrap": "^5.2.1",
             "handsontable": "^12.3.0",
-            "http-proxy-middleware": "^2.0.6",
             "jwt-decode": "^3.1.2",
             "mssql": "^9.1.1",
             "react": "^18.2.0",

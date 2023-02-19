@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
         
           <Nav>
             {user && (
-              <Nav.Link as={Link} to="/test">
+              <Nav.Link as={Link} to="/PatientBillSnapshot">
                 پرونده های هاب سلامت
               </Nav.Link>
             )}
