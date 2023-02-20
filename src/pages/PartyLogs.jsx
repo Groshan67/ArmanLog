@@ -143,7 +143,15 @@ const PartyLogs = () => {
           //const page = params.endRow / perPage - 1;
           console.log("pageNum.pageNum: ", pageNum);
           jwtInterceptor
-            .post(`${baseURL}?page=${pageNum}&size=${pageSize}`)
+            ({
+              method: 'post', url: `${baseURL}/filter?page=${pageNum}&size=${pageSize}`, headers: {}, data: {
+                "httpMethod": "POST",
+                "createdBy": null,
+                "uri": null,
+                "responseException": null,
+                "responseStatus": null
+              }
+            })
             .then((res) => {
               if (!res.data.content) {
                 gridApi.showNoRowsOverlay();

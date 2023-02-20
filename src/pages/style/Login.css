@@ -1,0 +1,64 @@
+body>#root>div {
+  height: 100vh;
+}
+
+.background-radial-gradient {
+  background-color: hsl(278, 41%, 15%);
+  background-image: radial-gradient(650px circle at 0% 0%,
+      hsl(278, 41%, 35%) 15%,
+      hsl(278, 41%, 30%) 35%,
+      hsl(278, 41%, 20%) 75%,
+      hsl(278, 41%, 19%) 80%,
+      transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
+      hsl(278, 41%, 45%) 15%,
+      hsl(278, 41%, 30%) 35%,
+      hsl(278, 41%, 20%) 75%,
+      hsl(278, 41%, 19%) 80%,
+      transparent 100%);
+}
+
+
+.background-card-gradient {
+
+  background-color: hsla(0, 0%, 100%, 0);
+  /* background-image: radial-gradient(650px circle at 100% 100%,
+      hsl(0, 41%, 35%) 15%,
+      hsl(0, 41%, 30%) 35%,
+      hsl(0, 41%, 20%) 75%,
+      hsl(0, 41%, 19%) 0%,
+      transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
+      hsl(0, 41%, 45%) 15%,
+      hsl(0, 41%, 30%) 35%,
+      hsl(0, 41%, 20%) 75%,
+      hsl(0, 41%, 19%) 80%,
+      transparent 100%); */
+}
+
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+.dash-logo {
+  padding: 10px;
+}
+
+
+
+
+.btn-grad {
+  background-image: linear-gradient(to right, #8339ce 0%, #6c28a7 51%, #aa22ff 100%);
+  border-color: #6c28a71c !important;
+  transition: 0.5s;
+  background-size: 200% auto;
+}
+
+.btn-grad:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}

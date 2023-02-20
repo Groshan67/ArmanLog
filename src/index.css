@@ -30,5 +30,7 @@ p {
 b{
   font-family: 'Shabnam' !important;
 }
+
+
 @import 'handsontable/dist/handsontable.full.min.css';
 
