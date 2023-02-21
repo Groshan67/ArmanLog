@@ -113,22 +113,12 @@ const PartyLogs = () => {
     { field: "updatedAt", headerName: "زمان بروز رسانی" },
     { field: "updatedBy", headerName: "کاربر بروز رسانی" },
   ]);
-  const containerStyle = useMemo(
-    () => ({ width: "800px", height: "1200px" }),
-    []
-  );
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
   const onGridReady = (params) => {
     setGridApi(params.api);
   };
-  const gridOptions = {
-    getRowStyle: (params) => {
-      if (params.node.footer) {
-        return { fontWeight: "bold" };
-      }
-    },
-  };
+
   useEffect(() => {
     if (gridApi) {
       const dataSource = {
@@ -143,15 +133,7 @@ const PartyLogs = () => {
           //const page = params.endRow / perPage - 1;
           console.log("pageNum.pageNum: ", pageNum);
           jwtInterceptor
-            ({
-              method: 'post', url: `${baseURL}/filter?page=${pageNum}&size=${pageSize}`, headers: {}, data: {
-                "httpMethod": "POST",
-                "createdBy": null,
-                "uri": null,
-                "responseException": null,
-                "responseStatus": null
-              }
-            })
+            .post(`${baseURL}?page=${pageNum}&size=${pageSize}`)
             .then((res) => {
               if (!res.data.content) {
                 gridApi.showNoRowsOverlay();
@@ -193,9 +175,9 @@ const PartyLogs = () => {
         }}
       >
         <div className="container" style={{ marginRight: "600px" }}>
-          <a className="button" onClick={() => onExportClick()}>
+          <i className="button" onClick={onExportClick}>
             {floppy}
-          </a>
+          </i>
         </div>
 
         <div style={gridStyle} className="ag-theme-alpine">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import { Row, Container, Form, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
@@ -17,9 +17,8 @@ const Layout = ({ children }) => {
   const { user, logout } = useContext(AuthContext);
   const navbar = { backgroundColor: "#9152a2", fontFamily: "Shabnam" };
   return (
-
     <>
-      {(localStorage.getItem("tokens")) ?
+      {localStorage.getItem("tokens") ? (
         <>
           <Navbar dir="rtl" style={navbar} variant="dark">
             <Navbar.Brand>
@@ -38,7 +37,7 @@ const Layout = ({ children }) => {
               <Nav>
                 {user && (
                   <Nav.Link as={Link} to="/partylogs">
-                    لاگ ها
+                    لاگ شرکت های بیمه
                   </Nav.Link>
                 )}
               </Nav>
@@ -80,9 +79,10 @@ const Layout = ({ children }) => {
           </Navbar>
           <Row className="m-4">{children}</Row>
         </>
-        : <Login />}
+      ) : (
+        <Login />
+      )}
     </>
-
   );
 };
 

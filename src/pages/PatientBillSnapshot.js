@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
+
 import { AgGridReact } from "@ag-grid-community/react";
 import axios from "axios";
 import "@ag-grid-community/all-modules/dist/styles/ag-grid.css";
@@ -47,18 +47,15 @@ var filterParams = {
   browserDatePicker: true,
 };
 
-var savedFilterModel = null;
+
 
 const PatientBillSnapshot = () => {
   const gridRef = useRef();
-  const containerStyle = useMemo(
-    () => ({ width: "800px", height: "1200px" }),
-    []
-  );
+ 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
   const [rowData, setRowData] = useState();
-  const [columnDefs, setColumnDefs] = useState([
+  const [columnDefs] = useState([
     { field: "Id", filter: "agTextColumnFilter", minWidth: 150 },
     { field: "PatientUID", filter: "agTextColumnFilter", minWidth: 600 },
     { field: "PersonalId", filter: "agTextColumnFilter" },
