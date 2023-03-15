@@ -1,52 +1,24 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import { Box } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { useEffect, useState, useRef } from "react";
+import { BASE_URL } from "../services/urls";
 import jwtInterceptor from "../components/shared/jwtInterceptor";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import CustomLoadingOverlay from "./customLoadingOverlay";
-
+import "../pages/style/PartyLogs.scss";
 import "./style/style.css";
-import "./style/styles.scss";
 
-const baseURL =
-  "https://hlthubofinsco.services.centinsur.ir/api/log/thirdPartyServices";
+// Insurer
+const initialOptionsArr = ["Arman_Hubins", "Dana_Hubins", "Saman_Hubins"];
 
-const floppy = <FontAwesomeIcon icon={faFloppyDisk} />;
-
-const PartyLogs = () => {
-  const [gridApi, setGridApi] = useState(null);
-  const perPage = 10;
-
-  const defaultColDef = useMemo(() => {
-    return {
-      flex: 1,
-      enableRowGroup: true,
-      enablePivot: true,
-      enableValue: true,
-      sortable: true,
-      resizable: true,
-      filter: true,
-      minWidth: 230,
-      rowHeight: 1500,
-      floatingFilter: true,
-      cellStyle: (params) => {
-        if (params.value === "POST") {
-          return { color: "Orange" };
-        } else if (params.value === "GET") {
-          return { color: "Green" };
-        }
-        return null;
-      },
-      wrapText: true,
-      //autoHeight: true,
-      wrapHeaderText: true,
-      autoHeaderHeight: true,
-    };
-  }, []);
-  const gridRef = useRef();
-  const [columnDefs] = useState([
+function PartyLogs() {
+  const [pageState, setPageState] = useState({
+    isLoading: false,
+    data: [],
+    total: 0,
+    page: 0,
+    pageSize: 10,
+    searchApiData: "",
+  });
+  const [columns] = useState([
     {
       field: "id",
       headerName: "شناسه",
@@ -113,99 +85,130 @@ const PartyLogs = () => {
     { field: "updatedAt", headerName: "زمان بروز رسانی" },
     { field: "updatedBy", headerName: "کاربر بروز رسانی" },
   ]);
-  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-
-  const onGridReady = (params) => {
-    setGridApi(params.api);
+  const handleCreateChange = (newValue) => {
+    setPageState((old) => ({
+      ...old,
+      searchApiData: newValue.target.value,
+    }));
+  };
+  const inputRef = useRef();
+  const [options, setOptions] = useState(initialOptionsArr);
+  const handleInputChange = ({ target }) => {
+    if (target.value) {
+      const filteredOptions = initialOptionsArr.filter((option) =>
+        option.toLowerCase().startsWith(target.value.toLowerCase())
+      );
+      setOptions(filteredOptions);
+      setPageState((old) => ({ ...old, searchApiData: target.value }));
+    } else {
+      setOptions(initialOptionsArr);
+    }
   };
 
   useEffect(() => {
-    if (gridApi) {
-      const dataSource = {
-        getRows: (params) => {
-          // Use startRow and endRow for sending pagination to Backend
-          // params.startRow : Start Page
-          // params.endRow : End Page
+    const fetchData = async () => {
+      setPageState((old) => ({ ...old, isLoading: true }));
+      const response = await jwtInterceptor.post(
+        `${BASE_URL}log/thirdPartyServices/filter?page=${pageState.page}&size=${pageState.pageSize}`,
+        {
+          httpMethod: "POST",
+          createdBy: pageState.searchApiData,
+          uri: null,
+          responseException: null,
+          responseStatus: null,
+        }
+      );
 
-          gridApi.showLoadingOverlay();
-          let pageSize = params.endRow - params.startRow,
-            pageNum = params.startRow / pageSize;
-          //const page = params.endRow / perPage - 1;
-          console.log("pageNum.pageNum: ", pageNum);
-          jwtInterceptor
-            .post(`${baseURL}?page=${pageNum}&size=${pageSize}`)
-            .then((res) => {
-              if (!res.data.content) {
-                gridApi.showNoRowsOverlay();
-              } else {
-                gridApi.hideOverlay();
-              }
-              params.successCallback(res.data.content, res.data.totalElements);
-            })
-            .catch((err) => {
-              gridApi.showNoRowsOverlay();
-              params.successCallback([], 0);
-            });
-        },
-      };
-
-      gridApi.setDatasource(dataSource);
-    }
-  }, [gridApi]);
-  const onExportClick = () => {
-    gridApi.exportDataAsCsv();
-  };
-
-  const loadingOverlayComponent = useMemo(() => {
-    return CustomLoadingOverlay;
-  }, []);
-  const loadingOverlayComponentParams = useMemo(() => {
-    return {
-      loadingMessage: "لطفا چند لحظه صبر نمایید...",
+      setPageState((old) => ({
+        ...old,
+        isLoading: false,
+        data: response.data.content,
+        total: response.data.totalPages,
+      }));
     };
-  }, []);
+    console.log("searchApiData : ", pageState.searchApiData);
+    fetchData();
+  }, [pageState.page, pageState.pageSize, pageState.searchApiData]);
 
   return (
-    <div>
+    <Box>
       <div
         style={{
-          height: "800px",
-          display: "flex",
-          flexDirection: "column",
+          marginTop: 50,
+          marginBottom: 100,
+          marginLeft: 100,
+          marginRight: 100,
         }}
       >
-        <div className="container" style={{ marginRight: "600px" }}>
-          <i className="button" onClick={onExportClick}>
-            {floppy}
-          </i>
+        {/* Input */}
+        <div className="Card">
+          <div className="CardInner">
+            <div className="container">
+              <div className="Icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#657789"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="feather feather-search"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </div>
+              <div className="InputContainer">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  list="insurer"
+                  name="mycountry"
+                  id="countryInput"
+                  onBlur={() => {
+                    inputRef.current.focus();
+                  }}
+                  onInput={handleInputChange}
+                  placeholder="...شرکت بیمه"
+                />
+                <datalist id="insurer">
+                  {options.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+                </datalist>
+              </div>
+            </div>
+          </div>
         </div>
+        {/* Input */}
 
-        <div style={gridStyle} className="ag-theme-alpine">
-          <AgGridReact
-            ref={gridRef}
-            enableRtl={true}
-            animateRows={true}
-            pagination={true}
-            columnDefs={columnDefs}
-            rowModelType={"infinite"}
-            paginationPageSize={perPage}
-            cacheBlockSize={perPage}
-            onGridReady={onGridReady}
-            rowHeight={150}
-            showToolPanel={true}
-            columnHoverHighlight={true}
-            defaultColDef={defaultColDef}
-            // overlayLoadingTemplate={loadingOverlayComponent}
-            loadingOverlayComponent={loadingOverlayComponent}
-            loadingOverlayComponentParams={loadingOverlayComponentParams}
-            overlayNoRowsTemplate={
-              '<span className="ag-overlay-loading-center">اطلاعاتی برای نمایش موجود نیست.</span>'
-            }
-          ></AgGridReact>
-        </div>
+        <DataGrid
+          style={{ fontFamily: "Shabnam" }}
+          autoHeight
+          rows={pageState.data}
+          rowCount={pageState.total}
+          loading={pageState.isLoading}
+          rowsPerPageOptions={[10, 30, 50]}
+          pagination
+          page={pageState.page - 1}
+          pageSize={pageState.pageSize}
+          paginationMode="server"
+          onPageChange={(newPage) => {
+            setPageState((old) => ({ ...old, page: newPage + 1 }));
+          }}
+          onPageSizeChange={(newPageSize) =>
+            setPageState((old) => ({ ...old, pageSize: newPageSize }))
+          }
+          columns={columns}
+          componentsProps={{
+            filterPanel: { onChange: handleCreateChange },
+          }}
+        />
       </div>
-    </div>
+    </Box>
   );
-};
-
+}
 export default PartyLogs;

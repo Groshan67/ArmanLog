@@ -1,6 +1,6 @@
-body>#root>div {
+/* body>#root>div {
   height: 100vh;
-}
+} */
 
 .background-radial-gradient {
   background-color: hsl(278, 41%, 15%);

@@ -64,7 +64,6 @@ import {
   MDBCol,
   MDBRow,
   MDBBtn,
-  MDBIcon,
   MDBCard,
   MDBInput,
   MDBCardBody,
@@ -88,7 +87,8 @@ const Login = () => {
     await login(payload);
   };
   return (
-    <MDBContainer fluid className='p-6 background-radial-gradient overflow-hidden' style={{ padding: "15rem" }}>
+    <MDBContainer fluid className='p-6 background-radial-gradient overflow-hidden' style={{   height: '100vh',
+    minHeight : '100vh' ,padding: "15rem" }}>
       <MDBRow>
         <div className='d-flex justify-content-center mb-4'>
           <MDBCardImage src={logomarkazi} alt='markazi' className='rounded-t-5 rounded-tr-lg-0 dash-logo' fluid />

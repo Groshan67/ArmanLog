@@ -51,4 +51,14 @@ to {
   margin-bottom: 5px;
 }
   
+.buttons {
+  background-color: #8a4db1 !important;
+  color: #fff !important;
+}
+.buttons:hover{
+  background-color: #571382 !important;
+  color: #fff !important;
+}
+
+
 

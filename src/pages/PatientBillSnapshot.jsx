@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
 
-import { AgGridReact } from "@ag-grid-community/react";
-import axios from "axios";
-import "@ag-grid-community/all-modules/dist/styles/ag-grid.css";
-import "@ag-grid-community/all-modules/dist/styles/ag-theme-alpine.css";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import "./style/style.css";
 import { ModuleRegistry } from "@ag-grid-community/core";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
@@ -13,8 +12,7 @@ import { ColumnsToolPanelModule } from "@ag-grid-enterprise/column-tool-panel";
 import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import CustomLoadingOverlay from "./customLoadingOverlay";
 
-
-// Register the required feature modules with the Grid
+//Register the required feature modules with the Grid
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   MenuModule,
@@ -23,36 +21,11 @@ ModuleRegistry.registerModules([
   SetFilterModule,
 ]);
 
-var filterParams = {
-  comparator: (filterLocalDateAtMidnight, cellValue) => {
-    var dateAsString = cellValue;
-    if (dateAsString == null) return -1;
-    var dateParts = dateAsString.split("/");
-    var cellDate = new Date(
-      Number(dateParts[2]),
-      Number(dateParts[1]) - 1,
-      Number(dateParts[0])
-    );
-    if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-      return 0;
-    }
-    if (cellDate < filterLocalDateAtMidnight) {
-      return -1;
-    }
-    if (cellDate > filterLocalDateAtMidnight) {
-      return 1;
-    }
-    return 0;
-  },
-  browserDatePicker: true,
-};
-
-
-
 const PatientBillSnapshot = () => {
   const gridRef = useRef();
- 
+
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const containerStyle = useMemo(() => ({ width: '100%', height: '100%' , marginTop:'30px'  }), []);
 
   const [rowData, setRowData] = useState();
   const [columnDefs] = useState([
@@ -62,12 +35,12 @@ const PatientBillSnapshot = () => {
     { field: "InsurerCode", filter: "agNumberColumnFilter", minWidth: 200 },
     {
       field: "CreatedDate",
-      filter: "agDateColumnFilter",
-      filterParams: filterParams,
+      // filter: "agDateColumnFilter",
     },
   ]);
   const defaultColDef = useMemo(() => {
     return {
+  
       flex: 1,
       enableRowGroup: true,
       enablePivot: true,
@@ -76,7 +49,7 @@ const PatientBillSnapshot = () => {
       resizable: true,
       filter: true,
       minWidth: 150,
-      //rowHeight: 400,
+
       floatingFilter: true,
       cellStyle: (params) => {
         if (params.value === "POST") {
@@ -93,13 +66,11 @@ const PatientBillSnapshot = () => {
   }, []);
 
   const onGridReady = useCallback((params) => {
-    axios
-      .get(`/api/patientBillSnapshots`)
-      // .then((resp) => resp.json())
-      .then(function (response) {
-        setRowData(response.data);
-      })
-      .catch(function (error) {
+    
+      fetch(`/api/patientBillSnapshots`)
+      .then((resp) => resp.json())
+      .then((data) =>  {setRowData(data)})
+      .catch( (error) => {
         console.log(error);
       });
     params.api.getToolPanelInstance("filters").expandFilters();
@@ -115,38 +86,41 @@ const PatientBillSnapshot = () => {
   }, []);
 
   return (
-    <div>
-      <div
-        style={{
-          height: "800px",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <div className="container" style={{ marginRight: "600px" }}>
-          {/* <a className="button" onClick={() => onExportClick()}>
-            {floppy}
-          </a> */}
-        </div>
-
+    <div  style={{
+      marginTop: 50,
+      marginBottom: 100,
+      marginLeft: 100,
+      marginRight: 100,
+    }}>
+     <div style={containerStyle}>
+       <div className="example-wrapper">
+       
+        <div
+          style={{
+            height: "800px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          
         <div style={gridStyle} className="ag-theme-alpine">
           <AgGridReact
-            ref={gridRef}
-            // enableRtl={true}
+             ref={gridRef}
+             pagination={true}
+             loadingOverlayComponent={loadingOverlayComponent}
+             loadingOverlayComponentParams={loadingOverlayComponentParams}
+             showToolPanel={true}
+             columnHoverHighlight={true}
             rowData={rowData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             sideBar={"filters"}
             onGridReady={onGridReady}
-            animateRows={true}
-            pagination={true}
-            loadingOverlayComponent={loadingOverlayComponent}
-            loadingOverlayComponentParams={loadingOverlayComponentParams}
-            showToolPanel={true}
-            columnHoverHighlight={true}
           ></AgGridReact>
         </div>
       </div>
+      </div>
+    </div>
     </div>
   );
 };

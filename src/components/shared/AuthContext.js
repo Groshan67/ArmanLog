@@ -23,7 +23,7 @@ export const AuthContextProvider = ({ children }) => {
     );
     localStorage.setItem("tokens", JSON.stringify(apiResponse.data));
     setUser(jwt_decode(apiResponse.data.accessToken));
-    navigate("/partylogs");
+    navigate("/patientBillSnapshot");
   };
 
   const logout = async () => {

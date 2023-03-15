@@ -9,10 +9,7 @@
 }
 body {
   margin: 0;
-  font-family: 'Shabnam'  
-   , 'Times New Roman', 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; 
+  font-family: 'Shabnam' !important; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
